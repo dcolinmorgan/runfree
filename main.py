@@ -79,8 +79,8 @@ def generate_random_trail_following_streets(starting_point, total_distance_km):
 @app.route('/', methods=['GET', 'POST'])
 def index():
   # Copy the trail map file on GET request
-  # if request.method == 'GET':
-  # copy_trail_map()
+  if request.method == 'GET':
+  copy_trail_map()
   if request.method == 'POST':
     # Get user input from the form
     starting_address = request.form.get('starting_address')
