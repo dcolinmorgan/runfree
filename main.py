@@ -4,7 +4,7 @@ from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace this with a secure secret key
+# app.secret_key = 'your_secret_key'  # Replace this with a secure secret key
 
 # Define paths
 TEMPLATE_MAP_FILE = 'templates/trail_map.html'
@@ -116,4 +116,5 @@ def index():
 
 # Run the Flask app
 if __name__ == '__main__':
+  app.debug = True  # Enable debug mode
   app.run(host='0.0.0.0', port=80)
