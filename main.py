@@ -1,12 +1,17 @@
-from flask import Flask, render_template, request
-import os, shutil, random, requests, folium
-from geopy.geocoders import Nominatim
-from geopy.distance import geodesic
+import os
+import random
+import shutil
+
+import folium
 import gpxpy
 import gpxpy.gpx
+import requests
+from flask import Flask, render_template, request
+from geopy.distance import geodesic
+from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
-app.secret_key = os.environ['strava_CS']
+app.secret_key = os.environ['STRAVA_CS']
 
 # Define paths
 TEMPLATE_MAP_FILE = 'templates/trail_map.html'
@@ -138,8 +143,8 @@ def upload_to_strava_route():
 @app.route('/', methods=['GET', 'POST'])
 def index():
   # Copy the trail map file on GET request
-  if request.method == 'GET':
-    copy_trail_map()
+  # if request.method == 'GET':
+  #   copy_trail_map()
   if request.method == 'POST':
     # Get user input from the form
     starting_address = request.form.get('starting_address')
@@ -181,5 +186,5 @@ def index():
 
 # Run the Flask app
 if __name__ == '__main__':
-  app.debug = True  # Enable debug mode
-  app.run(host='0.0.0.0', port=80)
+  # app.debug = True  # Enable debug mode
+  app.run(host='0.0.0.0')  # , port=80)
