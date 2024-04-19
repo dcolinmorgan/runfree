@@ -19,6 +19,21 @@
             margin-top: 30px;
         }
     </style>
+    <link rel="stylesheet" href="/static/styles.css">
+  <script>
+      // Function to select a random option from a select element
+      function selectRandomOption(selectId) {
+          const selectElement = document.getElementById(selectId);
+          const options = selectElement.options;
+          const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1;
+          // Select the random option
+          options[randomIndex].selected = true;
+      }
+      window.onload = function() {
+          selectRandomOption('default_location');
+          selectRandomOption('default_distance');
+      };
+  </script>
 </head>
 
 <body>
@@ -35,8 +50,18 @@
                 <label for="total_distance">Total Distance (km):</label>
                 <input type="number" id="total_distance" name="total_distance" class="form-control" step="0.1" required>
             </div>
-            <button type="submit" class="btn btn-primary">Generate Trail</button>
+            <button type="submit" class="btn btn-primary" title="Generate Trail (be careful when uploading to Strava)">Generate Trail</button>
+        
+        <form method="POST" action="/upload_to_strava">
+            <input type="hidden" name="gpx_file" value="{{ 'static/trail_map.gpx' }}">
+            <button type="submit" class="btn btn-secondary" title="requires a paid account">Upload to Strava</button>
         </form>
+        <!-- <a href="{{ strava_upload_link }}" class="upload-strava-button" title="requires a paid account!" submit>
+            Upload to Strava
+        </a> -->
+        </form>
+        <a href="{{ 'static/trail_map.html.gpx' }}" download>Download GPX</a>
+        <a href="{{ 'static/trail_map.html' }}" download>Download html</a>
 
         <!-- Map placeholder to be filled with the generated map -->
         {% if map_file %}

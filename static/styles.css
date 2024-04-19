@@ -1,0 +1,54 @@
+/* Basic style for the button */
+.upload-strava-button {
+    padding: 10px 20px;
+    background-color: #FF5733; /* Orange color for the button */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* Hover effect for the button */
+.upload-strava-button:hover {
+    background-color: #C70039; /* Darker red color when hovering */
+    cursor: pointer; /* Show a pointer cursor */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* Tooltip style */
+.upload-strava-button:hover::after {
+    content: attr(title); /* Use the title attribute as tooltip content */
+    position: absolute;
+    background-color: #333; /* Dark background for the tooltip */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    bottom: 50px; /* Adjust the position of the tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap; /* Prevent line breaks in tooltip */
+    z-index: 1; /* Make sure the tooltip is on top */
+    opacity: 0.3; /* Adjust opacity for better visibility */
+    text-align: center;
+  /* visibility: hidden;
+  width: max-content;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; /* Position above the button */
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+  /* opacity: 0; */
+  /* transition: opacity 0.3s; */ */
+}
+
+
