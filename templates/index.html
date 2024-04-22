@@ -1,80 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Running Trail Generator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        #map {
-            width: 100%;
-            height: 400px;
-            margin-top: 20px;
-        }
-        /* Add any other custom styles here */
-        .container {
-            margin-top: 30px;
-        }
-    </style>
-    <link rel="stylesheet" href="/static/styles.css">
-  <script>
-      // Function to select a random option from a select element
-      function selectRandomOption(selectId) {
-          const selectElement = document.getElementById(selectId);
-          const options = selectElement.options;
-          const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1;
-          // Select the random option
-          options[randomIndex].selected = true;
-      }
-      window.onload = function() {
-          selectRandomOption('default_location');
-          selectRandomOption('default_distance');
-      };
-  </script>
+    <title>Trail Generator</title>
 </head>
-
 <body>
-    <div class="container">
-        <h1 class="mt-5">Random Running Trail Generator</h1>
-
-        <!-- Form to input starting address and distance -->
-        <form action="/" method="POST" class="mb-3">
-            <div class="form-group">
-                <label for="starting_address">Starting Address:</label>
-                <input type="text" id="starting_address" name="starting_address" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="total_distance">Total Distance (km):</label>
-                <input type="number" id="total_distance" name="total_distance" class="form-control" step="0.1" required>
-            </div>
-          <form method="POST" action="/upload_to_strava" target="_blank">
-            <button type="submit" class="btn btn-primary" title="Generate Trail (be careful when uploading to Strava)">Generate Trail</button>
-            <!-- </form> -->
-        <form method="POST" action="/upload_to_strava">
-            <input type="hidden" name="gpx_file" value="{{ 'static/trail_map.gpx' }}">
-            <button type="submit" class="btn btn-secondary" title="requires a paid account">Upload to Strava</button>
-        </form>
-        <!-- <a href="{{ strava_upload_link }}" class="upload-strava-button" title="requires a paid account!" submit>
-            Upload to Strava
-        </a> -->
-        </form>
-        <a href="{{ 'static/trail_map.gpx' }}" download>Download GPX</a>
-        <a href="{{ 'static/trail_map.html' }}" download>Download html</a>
-
-      <!-- <h2>Trail Map</h2> -->
-      <!-- {% if map_file %} -->
-      <iframe src="{{ map_file }}" width="100%" height="500px" frameborder="0"></iframe>
-      <!-- {% else %} -->
-      <!-- <p>No trail map available yet. Fill out the form to generate one.</p> -->
-      <!-- {% endif %} -->
-
-        <!-- Buy Me a Coffee Widget -->
-      <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-
-    </div>
+    <h1>Generate Trail</h1>
+    <form method="post">
+        <label for="start_location">Start Location:</label>
+        <input type="text" id="start_location" name="start_location" required><br><br>
+        <label for="distance">Distance:</label>
+        <input type="number" id="distance" name="distance" step="0.01" required> 
+        <label for="unit">Unit:</label>
+        <select id="unit" name="unit">
+            <option value="km" selected>Kilometers</option>
+            <option value="mi">Miles</option>
+        </select><br><br>
+        <input type="checkbox" id="avoid_highways" name="avoid_highways">
+        <label for="avoid_highways">Avoid Highways</label><br>
+        <input type="checkbox" id="avoid_bridges" name="avoid_bridges">
+        <label for="avoid_bridges">Avoid Bridges</label><br><br>
+        <input type="submit" value="Generate Trail">
+    </form>
+  {% if trail_link %}
+  <p>Google Maps Trail Link:</p>
+  <a href="{{ trail_link }}" target="_blank">{{ trail_link }}</a>
+  {% endif %}
 </body>
-
 </html>

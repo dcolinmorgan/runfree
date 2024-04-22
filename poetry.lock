@@ -238,6 +238,19 @@ requests = ["requests (>=2.16.2)", "urllib3 (>=1.24.2)"]
 timezone = ["pytz"]
 
 [[package]]
+name = "googlemaps"
+version = "4.10.0"
+description = "Python client library for Google Maps Platform"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "googlemaps-4.10.0.tar.gz", hash = "sha256:3055fcbb1aa262a9159b589b5e6af762b10e80634ae11c59495bd44867e47d88"},
+]
+
+[package.dependencies]
+requests = ">=2.20.0,<3.0"
+
+[[package]]
 name = "gpxpy"
 version = "1.6.2"
 description = "GPX file parser and GPS track manipulation library"
@@ -433,6 +446,20 @@ files = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.0.1"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca"},
+    {file = "python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "requests"
 version = "2.31.0"
 description = "Python HTTP for Humans."
@@ -501,4 +528,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.0,<3.11"
-content-hash = "4a59aad96921a8d21b0b73423bfb04bdddff350af1159403505a912705c26c59"
+content-hash = "89b41da629b0f46d6ea3c29eaef69881d987e10f2531d1c1910c1cef5a2469a0"

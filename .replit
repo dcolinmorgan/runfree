@@ -8,8 +8,8 @@ hidden = [".pythonlibs"]
 channel = "stable-23_05"
 
 [deployment]
-deploymentTarget = "static"
-publicDir = "templates"
+deploymentTarget = "cloudrun"
+run = ["sh", "-c", "python main.py"]
 
 [[ports]]
 localPort = 80
