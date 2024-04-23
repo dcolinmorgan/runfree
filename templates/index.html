@@ -4,28 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trail Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 8px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #5F7FFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4d6aff;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            text-align: center;
+            word-wrap: break-word; /* Ensure long URLs wrap to the next line */
+            max-width: 90%; /* Limit the maximum width of the result */
+            overflow: hidden; /* Hide any overflowing content */
+            overflow-wrap: break-word; /* Ensure long words are broken and wrapped */
+        }
+  
+        .result a {
+            color: #5F7FFF;
+            text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Generate Trail</h1>
-    <form method="post">
-        <label for="start_location">Start Location:</label>
-        <input type="text" id="start_location" name="start_location" required><br><br>
-        <label for="distance">Distance:</label>
-        <input type="number" id="distance" name="distance" step="0.01" required> 
-        <label for="unit">Unit:</label>
-        <select id="unit" name="unit">
-            <option value="km" selected>Kilometers</option>
-            <option value="mi">Miles</option>
-        </select><br><br>
-        <input type="checkbox" id="avoid_highways" name="avoid_highways">
-        <label for="avoid_highways">Avoid Highways</label><br>
-        <input type="checkbox" id="avoid_bridges" name="avoid_bridges">
-        <label for="avoid_bridges">Avoid Bridges</label><br><br>
-        <input type="submit" value="Generate Trail">
-    </form>
-  {% if trail_link %}
-  <p>Google Maps Trail Link:</p>
-  <a href="{{ trail_link }}" target="_blank">{{ trail_link }}</a>
-  {% endif %}
+    <div class="container">
+        <h1>Generate Trail</h1>
+        <form method="post">
+            <label for="start_location">Start Location:</label>
+            <input type="text" id="start_location" name="start_location" required><br>
+            <label for="distance">Distance:</label>
+            <input type="number" id="distance" name="distance" step="0.01" required>
+            <label for="unit">Unit:</label>
+            <select id="unit" name="unit">
+                <option value="km" selected>Kilometers</option>
+                <option value="mi">Miles</option>
+            </select><br>
+            <!-- <input type="checkbox" id="avoid_highways" name="avoid_highways">
+            <label for="avoid_highways">Avoid Highways</label><br>
+            <input type="checkbox" id="avoid_bridges" name="avoid_bridges">
+            <label for="avoid_bridges">Avoid Bridges</label><br><br> -->
+            <input type="submit" value="Generate Trail">
+        </form>
+        {% if trail_link %}
+            <div class="result">
+                <p>Google Maps Trail Link:</p>
+                <a href="{{ trail_link }}" target="_blank">{{ trail_link }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Buy Me a Coffee Widget -->
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 </body>
 </html>
