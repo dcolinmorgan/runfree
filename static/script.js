@@ -1,26 +1,35 @@
+document.getElementById('use_current_location').addEventListener('click', function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Set the text input to show latitude and longitude in an array format
+            document.getElementById('start_location').value = `[${lat},${lon}]`;
+        }, function(error) {
+            alert('Error getting location: ' + error.message);
+        });
+    } else {
+        alert('Geolocation is not supported by this browser.');
+    }
+});
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
-    const useCurrentLocationButton = document.getElementById('use_current_location');
-    const startLocationInput = document.getElementById('start_location');
-
-    // Initialize Google Places Autocomplete for the start location input field
-    const autocomplete = new google.maps.places.Autocomplete(startLocationInput);
-
-    // Add click event listener to the "Use Current Location" button
-    useCurrentLocationButton.addEventListener('click', function() {
-        // Try to get the current geolocation
+    document.getElementById('use_current_location').addEventListener('click', function() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
-                const currentLocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                // Set the value of the start location input field to the current location
-                startLocationInput.value = `${currentLocation.lat},${currentLocation.lng}`;
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                document.getElementById('start_location').value = `[${lat},${lon}]`;
             }, function(error) {
-                console.error('Error getting current location:', error);
+                alert('Error getting location: ' + error.message);
             });
         } else {
-            console.error('Geolocation is not supported by this browser.');
+            alert('Geolocation is not supported by this browser.');
         }
     });
 });
+
