@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import googlemaps
 import os
+import math
 import random
 import urllib.parse
 from dotenv import load_dotenv
@@ -11,70 +12,46 @@ app = Flask(__name__)
 gmap_key = os.getenv('gmap_key')
 gmaps = googlemaps.Client(key=gmap_key)
 
+# the idea is to break the total distance into between 2-6 segments,
+# each of which will be defined by only 2 waypoints, and all of which
+# then combined into the total distance, beginning and ending at the
+# same user defined location
+import googlemaps
+import random
+import urllib.parse
 
-def generate_trail(start_location, distance, unit, avoid_highways,
-                   avoid_bridges):
+
+def generate_trail(start_location, distance, unit, avoid_ferries):
   if unit == 'mi':
     distance *= 1.60934  # Convert miles to kilometers
 
-  # Geocode the starting location
+  # Geocode the starting location to get latitude and longitude
   geocode_result = gmaps.geocode(start_location)
   start_lat = geocode_result[0]['geometry']['location']['lat']
   start_lng = geocode_result[0]['geometry']['location']['lng']
 
-  # Generate random waypoints for the trail
-  waypoints = []
-  remaining_distance = distance * 1000
-  prev_waypoint = (start_lat, start_lng)
+  # Find nearby parks using Google Places API
+  places_result = gmaps.places_nearby(
+      location=(start_lat, start_lng),
+      radius=5000,  # Search within a 10km radius
+      type='park')
 
-  while remaining_distance > 0:
-    try:
-      # Generate a random next waypoint
-      next_waypoint = (prev_waypoint[0] + random.uniform(-0.01, 0.01),
-                       prev_waypoint[1] + random.uniform(-0.01, 0.01))
+  # Extract parks and format them as waypoints
+  park_waypoints = [
+      f"{place['geometry']['location']['lat']},{place['geometry']['location']['lng']}"
+      for place in places_result['results']
+  ]
 
-      # Snap the next waypoint to roads
-      snapped_waypoint = gmaps.snap_to_roads([next_waypoint],
-                                             interpolate=True)[0]
+  # Check if there are at least one park, if not, handle the scenario
+  if not park_waypoints:
+    print("No parks found within a 10km radius.")
+    return None
 
-      # Calculate the distance between the previous and current waypoints
-      distance_result = gmaps.distance_matrix(
-          origins=f"{prev_waypoint[0]},{prev_waypoint[1]}",
-          destinations=
-          f"{snapped_waypoint['location']['latitude']},{snapped_waypoint['location']['longitude']}",
-          mode="walking",
-          avoid=','.join(
-              filter(None, [
-                  'highways' if avoid_highways else None,
-                  'bridges' if avoid_bridges else None
-              ])))
-      distance_meters = distance_result['rows'][0]['elements'][0]['distance'][
-          'value']
+  # Create a route that includes the parks as waypoints
+  waypoints_encoded = "|".join(urllib.parse.quote(wp) for wp in park_waypoints)
 
-      # Check if adding the waypoint exceeds the desired distance
-      if remaining_distance - distance_meters <= 0:
-        break
-
-      waypoints.append(
-          f"{snapped_waypoint['location']['latitude']},{snapped_waypoint['location']['longitude']}"
-      )
-      prev_waypoint = (snapped_waypoint['location']['latitude'],
-                       snapped_waypoint['location']['longitude'])
-      remaining_distance -= distance_meters
-
-    except IndexError:
-      # If no snapped waypoint is found, use the original next waypoint
-      snapped_waypoint = next_waypoint
-      waypoints.append(f"{snapped_waypoint[0]},{snapped_waypoint[1]}")
-      prev_waypoint = (snapped_waypoint[0], snapped_waypoint[1])
-      remaining_distance = 0  # Stop the loop if no snapped waypoint found
-
-  # Ensure the start and end locations are the same
-  waypoints.append(f"{start_lat},{start_lng}")
-
-  # URL-encode the start location and waypoints
+  # URL-encode the start location
   start_location_encoded = urllib.parse.quote(start_location)
-  waypoints_encoded = "|".join(urllib.parse.quote(wp) for wp in waypoints)
 
   # Create the Google Maps link with generated waypoints
   google_maps_link = f"https://www.google.com/maps/dir/?api=1&origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
@@ -88,14 +65,12 @@ def index():
     start_location = request.form['start_location']
     distance = float(request.form['distance'])
     unit = request.form['unit']
-    avoid_highways = 'avoid_highways' in request.form
-    avoid_bridges = 'avoid_bridges' in request.form
-    trail_link = generate_trail(start_location, distance, unit, avoid_highways,
-                                avoid_bridges)
+    avoid_ferries = 'avoid_ferries' in request.form
+    trail_link = generate_trail(start_location, distance, unit, avoid_ferries)
     return render_template('index.html', trail_link=trail_link)
   return render_template('index.html')
 
 
 # Run the Flask app
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=80)
+  app.run(host='0.0.0.0', port=82)
