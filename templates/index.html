@@ -27,11 +27,12 @@
             <label for="avoid_ferries">Avoid Ferries</label><br>
             <input type="submit" value="Generate Trail">
         </form>
-        {% if trail_link %}
-            <div class="result">
-                <!-- <p>Google Maps Trail Link:</p> -->
-                <a href="{{ trail_link }}" target="_blank">Press to Open Your Random Route</a>
-            </div>
+        {% if trail_buttons %}
+            {% for button_name, trail_link in trail_buttons %}
+                <div class="result">
+                    <a href="{{ trail_link }}" target="_blank">Press to Open Your Route in {{ button_name }}</a>
+                </div>
+            {% endfor %}
         {% endif %}
     <div id="result" class="result" style="display:none;"></div>
 
