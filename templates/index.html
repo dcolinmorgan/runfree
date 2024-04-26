@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="static/style.css">
-    
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="container">
@@ -17,7 +19,9 @@
           <button type="button" id="use_current_location">Use Current Location</button><br><br>
 
             <label for="distance">Distance:</label>
-            <input type="number" id="distance" name="distance" step="0.5" required>
+            <input type="number" id="distance" name="distance" step="0.5" required style="background: #f0f0f0;" value="10" inputmode="numeric">
+
+            <!-- <input type="number" id="distance" name="distance" step="0.5" required> -->
             <label for="unit">Unit:</label>
             <select id="unit" name="unit">
                 <option value="km" selected>Kilometers</option>

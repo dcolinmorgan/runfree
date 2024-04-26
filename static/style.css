@@ -92,12 +92,14 @@ input[type="submit"]:hover {
 .button a {
   display: flex;
   align-items: center;
+  width: 200px;
+  height: 50px;
   justify-content: center;
   text-decoration: none;
   background-color: #f0f0f0; /* Button background color */
   border: 1px solid #ccc; /* Button border */
-  border-radius: 5px; /* Button border radius */
-  padding: 10px; /* Button padding */
+  border-radius: 15px; /* Button border radius */
+  padding: 5px; /* Button padding */
   transition: background-color 0.3s ease;
 }
 
@@ -108,12 +110,31 @@ input[type="submit"]:hover {
 .button img {
   width: 100px; /* Adjust icon size */
   height: 100px; /* Adjust icon size */
-  margin-right: 5px; Adjust spacing between icon and text
+  margin-right: 50px; Adjust spacing between icon and text
   margin-left: 5px; /* Adjust as needed */
   margin-top: 10px; /* Adjust as needed */
+  justify-content: center;
 
 }
 
 .button span {
   font-size: 16px; /* Adjust text size */
+}
+#use_current_location {
+    background-color: #ccc; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make it inline */
+    font-size: 16px; /* Set font size */
+    margin: 4px 2px; /* Add margin */
+    cursor: pointer; /* Add cursor pointer */
+    border-radius: 5px; /* Add border radius */
+    transition: background-color 0.3s;
+}
+
+#use_current_location:hover {
+    background-color: #e0e0e0; /* Darker green on hover */
 }

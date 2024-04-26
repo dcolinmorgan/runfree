@@ -110,10 +110,10 @@ def index():
     unit = request.form['unit']
     # avoid_ferries = 'avoid_ferries' in request.form
     trail_links = generate_trail(start_location, distance, unit)
-    button_names = ["GoogleMaps", "AppleMaps", "OpenStreetMaps"]
+    button_names = ["GoogleMaps"]  #, "AppleMaps"]#, "OpenStreetMaps"]
     icon_paths = [
-        "static/icons/GoogleMaps.png", "static/icons/AppleMaps.png",
-        "static/icons/OpenStreetMaps.png"
+        "static/icons/GoogleMaps.png"  #, "static/icons/AppleMaps.png"#,
+        # "static/icons/OpenStreetMaps.png"
     ]
     trail_buttons = list(zip(button_names, trail_links, icon_paths))
     return render_template('index.html', trail_buttons=trail_buttons)
@@ -122,4 +122,4 @@ def index():
 
 # Run the Flask app
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=82)
+  app.run(host='0.0.0.0', port=80)

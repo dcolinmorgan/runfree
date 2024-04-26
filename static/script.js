@@ -1,35 +1,31 @@
-document.getElementById('use_current_location').addEventListener('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            // Set the text input to show latitude and longitude in an array format
-            document.getElementById('start_location').value = `[${lat},${lon}]`;
-        }, function(error) {
-            alert('Error getting location: ' + error.message);
-        });
-    } else {
-        alert('Geolocation is not supported by this browser.');
-    }
-});
-
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('use_current_location').addEventListener('click', function() {
+    const useCurrentLocationButton = document.getElementById('use_current_location');
+    const startLocationInput = document.getElementById('start_location');
+
+    // Initialize Mapbox Geocoder for the start location input field
+    const geocoder = new MapboxGeocoder({
+        accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN',
+        mapboxgl: mapboxgl
+    });
+
+    startLocationInput.parentNode.insertBefore(geocoder.onAdd(map), startLocationInput.nextSibling);
+
+    // Add click event listener to the "Use Current Location" button
+    useCurrentLocationButton.addEventListener('click', function() {
+        // Try to get the current geolocation
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                document.getElementById('start_location').value = `[${lat},${lon}]`;
+                const currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                // Set the value of the start location input field to the current location
+                startLocationInput.value = `${currentLocation.lat},${currentLocation.lng}`;
             }, function(error) {
-                alert('Error getting location: ' + error.message);
+                console.error('Error getting current location:', error);
             });
         } else {
-            alert('Geolocation is not supported by this browser.');
+            console.error('Geolocation is not supported by this browser.');
         }
     });
 });
-
