@@ -1,210 +1,119 @@
-/* Basic style for the button */
-.upload-strava-button {
-    padding: 10px 20px;
-    background-color: #FF5733; /* Orange color for the button */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    display: inline-block;
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Hover effect for the button */
-.upload-strava-button:hover {
-    background-color: #C70039; /* Darker red color when hovering */
-    cursor: pointer; /* Show a pointer cursor */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    display: inline-block;
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
 }
 
-/* Tooltip style */
-.upload-strava-button:hover::after {
-    content: attr(title); /* Use the title attribute as tooltip content */
-    position: absolute;
-    background-color: #333; /* Dark background for the tooltip */
-    color: white;
-    padding: 5px 10px;
-    border-radius: 3px;
-    bottom: 50px; /* Adjust the position of the tooltip */
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap; /* Prevent line breaks in tooltip */
-    z-index: 1; /* Make sure the tooltip is on top */
-    opacity: 0.3; /* Adjust opacity for better visibility */
+h1 {
     text-align: center;
-  /* visibility: hidden;
-  width: max-content;
-  background-color: rgba(0, 0, 0, 0.75);
-  color: #fff;
-  text-align: center;
-  border-radius: 5px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%; /* Position above the button */
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
-  /* opacity: 0; */
-  /* transition: opacity 0.3s; */ */
+    margin-bottom: 20px;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+}
 
-<title>Trail Generator</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+label {
+    margin-bottom: 8px;
+}
 
-    .container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 400px;
-    }
+input[type="text"],
+input[type="number"],
+select {
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
 
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+input[type="checkbox"] {
+    margin-right: 8px;
+}
 
-    form {
-        display: flex;
-        flex-direction: column;
-    }
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #5F7FFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
 
-    label {
-        margin-bottom: 8px;
-    }
+input[type="submit"]:hover {
+    background-color: #4d6aff;
+}
 
-    input[type="text"],
-    input[type="number"],
-    select {
-        padding: 8px;
-        margin-bottom: 16px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    text-align: center;
+    word-wrap: break-word; /* Ensure long URLs wrap to the next line */
+    max-width: 90%; /* Limit the maximum width of the result */
+    overflow: hidden; /* Hide any overflowing content */
+    overflow-wrap: break-word; /* Ensure long words are broken and wrapped */
+}
 
-    input[type="checkbox"] {
-        margin-right: 8px;
-    }
+.result a {
+    color: #5F7FFF;
+    text-decoration: none;
+}
+.button-container {
+  display: flex;
+}
 
-    input[type="submit"] {
-        padding: 10px 20px;
-        background-color: #5F7FFF;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s;
-    }
+.button {
+  margin-right: 20px; /* Adjust as needed */
+  margin-left: 20px; /* Adjust as needed */
+  margin-top: 20px; /* Adjust as needed */
 
-    input[type="submit"]:hover {
-        background-color: #4d6aff;
-    }
+}
 
-    .result {
-        margin-top: 20px;
-        text-align: center;
-    }
+.button a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #f0f0f0; /* Button background color */
+  border: 1px solid #ccc; /* Button border */
+  border-radius: 5px; /* Button border radius */
+  padding: 10px; /* Button padding */
+  transition: background-color 0.3s ease;
+}
 
-    .result a {
-        color: #5F7FFF;
-        text-decoration: none;
-    }
+.button a:hover {
+  background-color: #e0e0e0; /* Button background color on hover */
+}
 
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+.button img {
+  width: 100px; /* Adjust icon size */
+  height: 100px; /* Adjust icon size */
+  margin-right: 5px; Adjust spacing between icon and text
+  margin-left: 5px; /* Adjust as needed */
+  margin-top: 10px; /* Adjust as needed */
 
-    .container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 400px;
-    }
+}
 
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    label {
-        margin-bottom: 8px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    select {
-        padding: 8px;
-        margin-bottom: 16px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
-
-    input[type="checkbox"] {
-        margin-right: 8px;
-    }
-
-    input[type="submit"] {
-        padding: 10px 20px;
-        background-color: #5F7FFF;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #4d6aff;
-    }
-
-    .result {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        background-color: #f0f0f0;
-        text-align: center;
-        word-wrap: break-word; /* Ensure long URLs wrap to the next line */
-        max-width: 90%; /* Limit the maximum width of the result */
-        overflow: hidden; /* Hide any overflowing content */
-        overflow-wrap: break-word; /* Ensure long words are broken and wrapped */
-    }
-
-    .result a {
-        color: #5F7FFF;
-        text-decoration: none;
-    }
-
-</style>
+.button span {
+  font-size: 16px; /* Adjust text size */
+}

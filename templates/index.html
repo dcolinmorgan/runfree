@@ -28,11 +28,14 @@
             <input type="submit" value="Generate Trail">
         </form>
         {% if trail_buttons %}
-            {% for button_name, trail_link in trail_buttons %}
-                <div class="result">
-                    <a href="{{ trail_link }}" target="_blank">Press to Open Your Route in {{ button_name }}</a>
-                </div>
-            {% endfor %}
+            <div class="button-container">
+                {% for button_name, trail_link, icon_path in trail_buttons %}
+                <a href="{{ trail_link }}" target="_blank" class="button">
+                    <img src="{{ icon_path }}" >
+                    <!-- <span>{{ button_name }}</span> -->
+                </a>
+                {% endfor %}
+            </div>
         {% endif %}
     <div id="result" class="result" style="display:none;"></div>
 

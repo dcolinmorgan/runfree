@@ -92,7 +92,7 @@ def generate_trail(start_location, distance, unit):
   apple_maps_link = f"http://maps.apple.com/?saddr={start_location_encoded}&daddr={start_location_encoded}&dirflg=w&wp={waypoints_encoded}"
   openstreetmap_link = f"https://www.openstreetmap.org/directions?engine=graphhopper_foot&route={start_location_encoded}%3B{start_location_encoded}&route={waypoints_encoded}"
 
-  return google_maps_link, mapbox_link, apple_maps_link, openstreetmap_link
+  return google_maps_link, apple_maps_link, openstreetmap_link
 
 
 def geocode_location(location):
@@ -110,8 +110,12 @@ def index():
     unit = request.form['unit']
     # avoid_ferries = 'avoid_ferries' in request.form
     trail_links = generate_trail(start_location, distance, unit)
-    button_names = ["Google Maps", "MapBox", "Apple Maps", "OpenStreet Maps"]
-    trail_buttons = list(zip(button_names, trail_links))
+    button_names = ["GoogleMaps", "AppleMaps", "OpenStreetMaps"]
+    icon_paths = [
+        "static/icons/GoogleMaps.png", "static/icons/AppleMaps.png",
+        "static/icons/OpenStreetMaps.png"
+    ]
+    trail_buttons = list(zip(button_names, trail_links, icon_paths))
     return render_template('index.html', trail_buttons=trail_buttons)
   return render_template('index.html')
 
