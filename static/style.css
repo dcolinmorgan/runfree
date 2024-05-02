@@ -138,3 +138,78 @@ input[type="submit"]:hover {
 #use_current_location:hover {
     background-color: #e0e0e0; /* Darker green on hover */
 }
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4caf50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4caf50;
+    cursor: pointer;
+}
+
+.radio-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.radio-label {
+    margin-right: 10px;
+}
+
+.more-options-container {
+    position: relative;
+}
+
+.more-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.more-options.show {
+    display: block;
+}
+
+.distance-selector {
+    display: flex;
+    flex-direction: row;
+}
+
+.distance-input {
+    flex: 1; /* Take up half the width */
+    margin-right: 10px;
+}
+
+.unit-selector {
+    flex: 1; /* Take up half the width */
+}

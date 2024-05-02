@@ -13,6 +13,17 @@ if ('serviceWorker' in navigator) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const moreOptionsToggle = document.getElementById('more-options-toggle');
+    const moreOptions = document.getElementById('more-options');
+
+    moreOptionsToggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        moreOptions.classList.toggle('show');
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
     const useCurrentLocationButton = document.getElementById('use_current_location');
     const startLocationInput = document.getElementById('start_location');
 
@@ -43,3 +54,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
