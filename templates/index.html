@@ -1,125 +1,124 @@
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <title>RunFree</title>
-          <meta charset="UTF-8">
-          <link rel="manifest" href="/static/manifest.json">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
-          <script src="script.js" defer></script>
-          <link rel="stylesheet" href="static/style.css">
-          <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
-          <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RunFree</title>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
 
-          <style>
-              /* Hide the address bar initially */
-              html, body {
-                  height: 100%;
-                  overflow: hidden;
-              }
+    <style>
+        /* Hide the address bar initially */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-              /* Hide the more options container by default */
-              .more-options-container {
-                  display: none;
-              }
-          </style>
-      </head>
-      <body>
-          <div class="container">
-              <h1>RunFree</h1>
-              <form method="post">
-                  <label for="start_location">Start Location:</label>
-                  <input type="text" id="start_location" name="start_location" required><br><br>
-                  <button type="button" id="use_current_location">Use Current Location</button><br><br>
+        /* Hide the more options container by default */
+        .more-options-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RunFree</h1>
+        <form method="post">
+            <label for="start_location">Start Location:</label>
+            <input type="text" id="start_location" name="start_location" required><br><br>
+            <button type="button" id="use_current_location">Use Current Location</button><br><br>
 
-                  <div class="distance-selector">
-                    <div class="distance-input">
-                        <label for="distance"></label>
-                        <input type="number" id="distance" name="distance" step="0.5" required style="background: #f0f0f0;" value="10" inputmode="numeric">
-                    </div>
-                    <div class="unit-selector">
-                        <label for="unit"></label>
-                        <select id="unit" name="unit">
-                            <option value="km" selected>Kilometers</option>
-                            <option value="mi">Miles</option>
-                        </select>
-                    </div>
-                  </div>
-                  <br><br>
-                <div class="more-options-header" id="more_options_header">
-                    <button id="more_options_toggle">More Options</button>
-                </div>
-                <div class="more-options-container" id="more_options_container">
-                  <!-- <a href="#" id="more-options-toggle">More Options</a> -->
-                  <div class="more-options" id="more-options">
-                    <label for="steepness">Steepness:</label>
-                    <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="steepness"><br><br>
-
-                    <div class="radio-container">
-                        <label class="radio-label" for="run_to_parks">Run to Parks:</label>
-                        <input type="radio" id="run_to_parks" name="run_to" value="parks">
-                    </div>
-                    <div class="radio-container">
-                        <label class="radio-label" for="run_to_rivers">Run to Rivers:</label>
-                        <input type="radio" id="run_to_rivers" name="run_to" value="rivers">
-                    </div>
-                    <div class="radio-container">
-                        <label class="radio-label" for="run_to_city">Run in the City:</label>
-                        <input type="radio" id="run_to_city" name="run_to" value="city">
-                    </div>
-
-
-                    <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
-                    <label for="avoid_ferries">Avoid Ferries</label><br>
-                  </div>
-                </div>
-                <br><br>
-                <br><br>
-                <input type="submit" value="Generate Trail">
-              </form>
-              {% if trail_buttons %}
-                  <div class="button-container">
-                      {% for button_name, trail_link, icon_path in trail_buttons %}
-                      <a href="{{ trail_link }}" target="_blank" class="button">
-                          <img src="{{ icon_path }}" >
-                          <!-- <span>{{ button_name }}</span> -->
-                      </a>
-                      {% endfor %}
-                  </div>
-              {% endif %}
-          <div id="result" class="result" style="display:none;"></div>
-
-
-          <!-- Buy Me a Coffee Widget -->
-          <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+            <div class="distance-selector">
+              <div class="distance-input">
+                  <label for="distance"></label>
+                  <input type="number" id="distance" name="distance" step="0.5" required style="background: #f0f0f0;" value="10" inputmode="numeric">
+              </div>
+              <div class="unit-selector">
+                  <label for="unit"></label>
+                  <select id="unit" name="unit">
+                      <option value="km" selected>Kilometers</option>
+                      <option value="mi">Miles</option>
+                  </select>
+              </div>
+            </div>
+            <br><br>
+          <div class="more-options-header" id="more_options_header">
+              <button type="button" id="more_options_toggle">More Options</button>
+          </div>
+          <div class="more-options-container" id="more_options_container">
+            <div class="more-options" id="more-options">
+              <label for="steepness">Steepness:</label>
+              <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="steepness"><br><br>
+  
+              <div class="radio-container">
+                  <label class="radio-label" for="run_to_parks">Run to Parks:</label>
+                  <input type="radio" id="run_to_parks" name="run_to" value="parks">
+              </div>
+              <div class="radio-container">
+                  <label class="radio-label" for="run_to_rivers">Run to Rivers:</label>
+                  <input type="radio" id="run_to_rivers" name="run_to" value="rivers">
+              </div>
+              <div class="radio-container">
+                  <label class="radio-label" for="run_to_city">Run in the City:</label>
+                  <input type="radio" id="run_to_city" name="run_to" value="city">
+              </div>
+            
+          
+              <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
+              <label for="avoid_ferries">Avoid Ferries</label><br>
+            </div>
+          </div>
+          <br><br>
+          <br><br>
+          <input type="submit" value="Generate Trail">
+        </form>
+        {% if trail_buttons %}
+            <div class="button-container">
+                {% for button_name, trail_link, icon_path in trail_buttons %}
+                <a href="{{ trail_link }}" target="_blank" class="button">
+                    <img src="{{ icon_path }}" >
+                    <!-- <span>{{ button_name }}</span> -->
+                </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    <div id="result" class="result" style="display:none;"></div>
 
 
-            <script>
-                // Function to handle form submission
-                document.addEventListener("DOMContentLoaded", function() {
-                    document.getElementById("use_current_location").addEventListener("click", function() {
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(function(position) {
-                                var latitude = position.coords.latitude;
-                                var longitude = position.coords.longitude;
+    <!-- Buy Me a Coffee Widget -->
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
-                                // Update start and end location input fields with user's current location
-                                document.getElementById("start_location").value = latitude + "," + longitude;
-                                document.getElementById("end_location").value = latitude + "," + longitude;
-                            }, function(error) {
-                                console.error("Error getting current location:", error);
-                                alert("Error getting current location. Please enter manually.");
-                            });
-                        } else {
-                            alert("Geolocation is not supported by this browser. Please enter manually.");
-                        }
-                    });
 
-                    // Toggle visibility of more options container
-                    document.getElementById("more_options_toggle").addEventListener("click", function() {
-                        var container = document.getElementById("more_options_container");
-                        container.style.display = container.style.display === "block" ? "none" : "block";
-                    });
-                });
-            </script>
-      </body>
-      </html>
+      <script>
+          // Function to handle form submission
+          document.addEventListener("DOMContentLoaded", function() {
+              document.getElementById("use_current_location").addEventListener("click", function() {
+                  if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(function(position) {
+                          var latitude = position.coords.latitude;
+                          var longitude = position.coords.longitude;
+
+                          // Update start and end location input fields with user's current location
+                          document.getElementById("start_location").value = latitude + "," + longitude;
+                          document.getElementById("end_location").value = latitude + "," + longitude;
+                      }, function(error) {
+                          console.error("Error getting current location:", error);
+                          alert("Error getting current location. Please enter manually.");
+                      });
+                  } else {
+                      alert("Geolocation is not supported by this browser. Please enter manually.");
+                  }
+              });
+
+              // Toggle visibility of more options container
+              document.getElementById("more_options_toggle").addEventListener("click", function() {
+                  var container = document.getElementById("more_options_container");
+                  container.style.display = container.style.display === "block" ? "none" : "block";
+              });
+          });
+      </script>
+</body>
+</html>
