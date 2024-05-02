@@ -3,20 +3,28 @@
 <head>
     <title>RunFree</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/static/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="static/style.css">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
 
+    <style>
+        /* Hide the address bar initially */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>RunFree</h1>
         <form method="post">
             <label for="start_location">Start Location:</label>
-          <input type="text" id="start_location" name="start_location" required><br><br>
-          <button type="button" id="use_current_location">Use Current Location</button><br><br>
+            <input type="text" id="start_location" name="start_location" required><br><br>
+            <button type="button" id="use_current_location">Use Current Location</button><br><br>
 
             <label for="distance">Distance:</label>
             <input type="number" id="distance" name="distance" step="0.5" required style="background: #f0f0f0;" value="10" inputmode="numeric">
@@ -47,6 +55,28 @@
     <!-- Buy Me a Coffee Widget -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
-  
+
+      <script>
+          // Function to handle form submission
+          document.addEventListener("DOMContentLoaded", function() {
+              document.getElementById("use_current_location").addEventListener("click", function() {
+                  if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(function(position) {
+                          var latitude = position.coords.latitude;
+                          var longitude = position.coords.longitude;
+
+                          // Update start and end location input fields with user's current location
+                          document.getElementById("start_location").value = latitude + "," + longitude;
+                          document.getElementById("end_location").value = latitude + "," + longitude;
+                      }, function(error) {
+                          console.error("Error getting current location:", error);
+                          alert("Error getting current location. Please enter manually.");
+                      });
+                  } else {
+                      alert("Geolocation is not supported by this browser. Please enter manually.");
+                  }
+              });
+          });
+      </script>
 </body>
 </html>

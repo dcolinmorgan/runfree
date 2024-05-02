@@ -1,10 +1,24 @@
+document.documentElement.requestFullscreen().catch((e) => {
+  console.log(e);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const useCurrentLocationButton = document.getElementById('use_current_location');
     const startLocationInput = document.getElementById('start_location');
 
     // Initialize Mapbox Geocoder for the start location input field
     const geocoder = new MapboxGeocoder({
-        accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN',
+        accessToken: 'MAPBOX_TOKEN',
         mapboxgl: mapboxgl
     });
 
