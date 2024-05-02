@@ -13,12 +13,16 @@ if ('serviceWorker' in navigator) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const moreOptionsToggle = document.getElementById('more-options-toggle');
-    const moreOptions = document.getElementById('more-options');
+    const moreOptionsToggle = document.getElementById('more_options_toggle');
+    const moreOptionsContainer = document.getElementById('more_options_container');
 
-    moreOptionsToggle.addEventListener('click', function(event) {
-        event.preventDefault();
-        moreOptions.classList.toggle('show');
+    moreOptionsToggle.addEventListener('click', function() {
+        // Toggle the visibility of the more options container
+        if (moreOptionsContainer.style.height === '0px' || !moreOptionsContainer.style.height) {
+            moreOptionsContainer.style.height = 'auto'; // Expand the container
+        } else {
+            moreOptionsContainer.style.height = '0px'; // Collapse the container
+        }
     });
 });
 

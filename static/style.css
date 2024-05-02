@@ -182,22 +182,17 @@ input[type="submit"]:hover {
 }
 
 .more-options-container {
-    position: relative;
+    height: 0; /* Hide content by default */
+    overflow: hidden; /* Hide overflowing content */
+    transition: height 0.3s; /* Smooth transition for height changes */
 }
 
 .more-options {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-    background-color: white;
-    border: 1px solid #ccc;
     padding: 10px;
 }
 
-.more-options.show {
-    display: block;
+.more-options.expanded {
+    height: auto; /* Expand height to fit content */
 }
 
 .distance-selector {
