@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <link rel="manifest" href="/static/manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="static/style.css">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
@@ -45,30 +47,29 @@
               </div>
             </div>
             <br><br>
-          <div class="more-options-header" id="more_options_header">
-              <button type="button" id="more_options_toggle">More Options</button>
+          <div class="more-options-header header" id="more_options_header">
+            <button id="more_options_toggle">Expand</button>
           </div>
-          <div class="more-options-container" id="more_options_container">
+          <div class="more-options-container" id="more_options_container" style="display: none;">
             <div class="more-options" id="more-options">
-              <label for="steepness">Steepness:</label>
-              <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="steepness"><br><br>
-  
-              <div class="radio-container">
-                  <label class="radio-label" for="run_to_parks">Run to Parks:</label>
-                  <input type="radio" id="run_to_parks" name="run_to" value="parks">
-              </div>
-              <div class="radio-container">
-                  <label class="radio-label" for="run_to_rivers">Run to Rivers:</label>
-                  <input type="radio" id="run_to_rivers" name="run_to" value="rivers">
-              </div>
-              <div class="radio-container">
-                  <label class="radio-label" for="run_to_city">Run in the City:</label>
-                  <input type="radio" id="run_to_city" name="run_to" value="city">
-              </div>
-            
-          
-              <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
-              <label for="avoid_ferries">Avoid Ferries</label><br>
+                <label for="steepness">Steepness:</label>
+                <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="steepness"><br><br>
+
+                <div class="radio-container">
+                    <label class="radio-label" for="run_to_parks">Run to Parks:</label>
+                    <input type="radio" id="run_to_parks" name="run_to" value="parks">
+                </div>
+                <div class="radio-container">
+                    <label class="radio-label" for="run_to_rivers">Run to Rivers:</label>
+                    <input type="radio" id="run_to_rivers" name="run_to" value="rivers">
+                </div>
+                <div class="radio-container">
+                    <label class="radio-label" for="run_to_city">Run in the City:</label>
+                    <input type="radio" id="run_to_city" name="run_to" value="city">
+                </div>
+
+                <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
+                <label for="avoid_ferries">Avoid Ferries</label><br>
             </div>
           </div>
           <br><br>
@@ -91,34 +92,43 @@
     <!-- Buy Me a Coffee Widget -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
+<script>
+  // Function to handle form submission
+  $(document).ready(function() {
+      $("#use_current_location").click(function() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                  var latitude = position.coords.latitude;
+                  var longitude = position.coords.longitude;
 
-      <script>
-          // Function to handle form submission
-          document.addEventListener("DOMContentLoaded", function() {
-              document.getElementById("use_current_location").addEventListener("click", function() {
-                  if (navigator.geolocation) {
-                      navigator.geolocation.getCurrentPosition(function(position) {
-                          var latitude = position.coords.latitude;
-                          var longitude = position.coords.longitude;
-
-                          // Update start and end location input fields with user's current location
-                          document.getElementById("start_location").value = latitude + "," + longitude;
-                          document.getElementById("end_location").value = latitude + "," + longitude;
-                      }, function(error) {
-                          console.error("Error getting current location:", error);
-                          alert("Error getting current location. Please enter manually.");
-                      });
-                  } else {
-                      alert("Geolocation is not supported by this browser. Please enter manually.");
-                  }
+                  // Update start and end location input fields with user's current location
+                  $("#start_location").val(latitude + "," + longitude);
+                  $("#end_location").val(latitude + "," + longitude);
+              }, function(error) {
+                  console.error("Error getting current location:", error);
+                  alert("Error getting current location. Please enter manually.");
               });
+          } else {
+              alert("Geolocation is not supported by this browser. Please enter manually.");
+          }
+      });
 
-              // Toggle visibility of more options container
-              document.getElementById("more_options_toggle").addEventListener("click", function() {
-                  var container = document.getElementById("more_options_container");
-                  container.style.display = container.style.display === "block" ? "none" : "block";
+      // Toggle visibility of more options container
+      $(".header").click(function () {
+          $header = $(this);
+          //getting the next element
+          $content = $header.next();
+          //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+          $content.slideToggle(500, function () {
+              //execute this after slideToggle is done
+              //change text of header based on visibility of content div
+              $header.text(function () {
+                  //change text based on condition
+                  return $content.is(":visible") ? "Collapse" : "Expand";
               });
           });
-      </script>
+      });
+  });
+</script>
 </body>
 </html>

@@ -12,51 +12,91 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const moreOptionsToggle = document.getElementById('more_options_toggle');
-    const moreOptionsContainer = document.getElementById('more_options_container');
+// Function to handle form submission
+document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("use_current_location").addEventListener("click", function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
 
-    moreOptionsToggle.addEventListener('click', function() {
-        // Toggle the visibility of the more options container
-        if (moreOptionsContainer.style.height === '0px' || !moreOptionsContainer.style.height) {
-            moreOptionsContainer.style.height = 'auto'; // Expand the container
-        } else {
-            moreOptionsContainer.style.height = '0px'; // Collapse the container
-        }
+                    // Update start and end location input fields with user's current location
+                    document.getElementById("start_location").value = latitude + "," + longitude;
+                    document.getElementById("end_location").value = latitude + "," + longitude;
+                }, function(error) {
+                    console.error("Error getting current location:", error);
+                    alert("Error getting current location. Please enter manually.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser. Please enter manually.");
+            }
+        });
+
+// Toggle visibility of more options container
+        document.getElementById("more_options_toggle").addEventListener("click", function() {
+            var container = document.getElementById("more_options_container");
+            container.style.display = container.style.display === "block" ? "none" : "block";
+        });
     });
-});
+
+// // Function to handle form submission
+// document.addEventListener("DOMContentLoaded", function() {
+//       document.getElementById("use_current_location").addEventListener("click", function() {
+//           if (navigator.geolocation) {
+//               navigator.geolocation.getCurrentPosition(function(position) {
+//                   var latitude = position.coords.latitude;
+//                   var longitude = position.coords.longitude;
+
+//                   // Update start and end location input fields with user's current location
+//                   document.getElementById("start_location").value = latitude + "," + longitude;
+//                   document.getElementById("end_location").value = latitude + "," + longitude;
+//               }, function(error) {
+//                   console.error("Error getting current location:", error);
+//                   alert("Error getting current location. Please enter manually.");
+//               });
+//           } else {
+//               alert("Geolocation is not supported by this browser. Please enter manually.");
+//           }
+//       });
+
+// Toggle visibility of more options container
+      document.getElementById("more_options_toggle").addEventListener("click", function() {
+          var container = document.getElementById("more_options_container");
+          container.style.display = container.style.display === "block" ? "none" : "block";
+      });
+  });
+
+  // jQuery code to toggle display of more options
+  $(document).ready(function() {
+      $("#more_options_toggle").click(function() {
+          $("#more_options_container").toggle();
+      });
+  });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const useCurrentLocationButton = document.getElementById('use_current_location');
-    const startLocationInput = document.getElementById('start_location');
+// // Function to handle form submission
+// document.addEventListener("DOMContentLoaded", function() {
+//         document.getElementById("use_current_location").addEventListener("click", function() {
+//             if (navigator.geolocation) {
+//                 navigator.geolocation.getCurrentPosition(function(position) {
+//                     var latitude = position.coords.latitude;
+//                     var longitude = position.coords.longitude;
 
-    // Initialize Mapbox Geocoder for the start location input field
-    const geocoder = new MapboxGeocoder({
-        accessToken: 'MAPBOX_TOKEN',
-        mapboxgl: mapboxgl
-    });
+//                     // Update start and end location input fields with user's current location
+//                     document.getElementById("start_location").value = latitude + "," + longitude;
+//                     document.getElementById("end_location").value = latitude + "," + longitude;
+//                 }, function(error) {
+//                     console.error("Error getting current location:", error);
+//                     alert("Error getting current location. Please enter manually.");
+//                 });
+//             } else {
+//                 alert("Geolocation is not supported by this browser. Please enter manually.");
+//             }
+//         });
 
-    startLocationInput.parentNode.insertBefore(geocoder.onAdd(map), startLocationInput.nextSibling);
-
-    // Add click event listener to the "Use Current Location" button
-    useCurrentLocationButton.addEventListener('click', function() {
-        // Try to get the current geolocation
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const currentLocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                // Set the value of the start location input field to the current location
-                startLocationInput.value = `${currentLocation.lat},${currentLocation.lng}`;
-            }, function(error) {
-                console.error('Error getting current location:', error);
-            });
-        } else {
-            console.error('Geolocation is not supported by this browser.');
-        }
-    });
-});
-
-
+//         // Toggle visibility of more options container
+//         document.getElementById("more_options_toggle").addEventListener("click", function() {
+//             var container = document.getElementById("more_options_container");
+//             container.style.display = container.style.display === "block" ? "none" : "block";
+//         });
+//     });

@@ -181,20 +181,6 @@ input[type="submit"]:hover {
     margin-right: 10px;
 }
 
-.more-options-container {
-    height: 0; /* Hide content by default */
-    overflow: hidden; /* Hide overflowing content */
-    transition: height 0.3s; /* Smooth transition for height changes */
-}
-
-.more-options {
-    padding: 10px;
-}
-
-.more-options.expanded {
-    height: auto; /* Expand height to fit content */
-}
-
 .distance-selector {
     display: flex;
     flex-direction: row;
