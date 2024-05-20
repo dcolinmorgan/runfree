@@ -39,11 +39,10 @@
                   <input type="number" id="distance" name="distance" step="0.5" required style="background: #f0f0f0;" value="10" inputmode="numeric">
               </div>
               <div class="unit-selector">
-                  <label for="unit"></label>
-                  <select id="unit" name="unit">
-                      <option value="km" selected>Kilometers</option>
-                      <option value="mi">Miles</option>
-                  </select>
+                <label for="unit">Unit:</label>
+                <button type="button" id="unit_km" class="unit-button active">KM</button>
+                <button type="button" id="unit_mi" class="unit-button">Miles</button>
+                <!-- <input type="hidden" id="unit" name="unit" value="KM"> -->
               </div>
             </div>
             <br><br>
@@ -55,21 +54,16 @@
                 <label for="steepness">Steepness:</label>
                 <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="steepness"><br><br>
 
-                <div class="radio-container">
-                    <label class="radio-label" for="run_to_parks">Run to Parks:</label>
-                    <input type="radio" id="run_to_parks" name="run_to" value="parks">
+                <div class="run_to-selector">
+                    <label for="run_to">Run To:</label>
+                    <button type="button" id="park" class="unit-button active">park</button>
+                    <button type="button" id="water" class="unit-button ">water</button>
+                    <button type="button" id="city" class="unit-button">city</button>
+                    <button type="button" id="airport" class="unit-button">FLY</button>
                 </div>
-                <div class="radio-container">
-                    <label class="radio-label" for="run_to_rivers">Run to Rivers:</label>
-                    <input type="radio" id="run_to_rivers" name="run_to" value="rivers">
-                </div>
-                <div class="radio-container">
-                    <label class="radio-label" for="run_to_city">Run in the City:</label>
-                    <input type="radio" id="run_to_city" name="run_to" value="city">
-                </div>
-
-                <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
-                <label for="avoid_ferries">Avoid Ferries</label><br>
+                    <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
+                    <label for="avoid_ferries">Avoid Ferries</label><br>
+            
             </div>
           </div>
           <br><br>
@@ -124,7 +118,7 @@
               //change text of header based on visibility of content div
               $header.text(function () {
                   //change text based on condition
-                  return $content.is(":visible") ? "Collapse" : "Expand";
+                  return $content.is(":visible") ? "Less" : "More";
               });
           });
       });

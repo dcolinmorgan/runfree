@@ -12,26 +12,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-# gmap_key = os.getenv('gmap_key')
-# gmaps = googlemaps.Client(key=gmap_key)
-# Initialize Mapbox client
 mapbox_token = os.getenv('MAPBOX_TOKEN')
 directions = Directions(access_token=mapbox_token)
-
-# the idea is to break the total distance into between 2-6 segments,
-# each of which will be defined by only 2 waypoints, and all of which
-# then combined into the total distance, beginning and ending at the
-# same user defined location
 
 
 def generate_trail(start_location, distance, unit):
   if unit == 'mi':
     distance *= 1.60934  # Convert miles to kilometers
 
-  # Geocode the starting location
   start_lat, start_lng = geocode_location(start_location)
-
-  # Generate random waypoints for the trail
   waypoints = []
   total_distance = 0
   prev_waypoint = (start_lng, start_lat)  # Note: Mapbox uses (lng, lat) format
@@ -89,10 +78,7 @@ def generate_trail(start_location, distance, unit):
 
   # Create links for other maps
   google_maps_link = f"https://www.google.com/maps/dir/?api=1&origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
-  apple_maps_link = f"http://maps.apple.com/?saddr={start_location_encoded}&daddr={start_location_encoded}&dirflg=w&wp={waypoints_encoded}"
-  openstreetmap_link = f"https://www.openstreetmap.org/directions?engine=graphhopper_foot&route={start_location_encoded}%3B{start_location_encoded}&route={waypoints_encoded}"
-
-  return google_maps_link, apple_maps_link, openstreetmap_link
+  return google_maps_link
 
 
 def geocode_location(location):
@@ -108,12 +94,12 @@ def index():
     start_location = request.form['start_location']
     distance = float(request.form['distance'])
     unit = request.form['unit']
-    # avoid_ferries = 'avoid_ferries' in request.form
+    run_to = request.form['run_to']
+    avoid_ferries = 'avoid_ferries' in request.form
     trail_links = generate_trail(start_location, distance, unit)
-    button_names = ["GoogleMaps"]  #, "AppleMaps"]#, "OpenStreetMaps"]
+    button_names = ["GoogleMaps"]
     icon_paths = [
-        "static/icons/GoogleMaps.png"  #, "static/icons/AppleMaps.png"#,
-        # "static/icons/OpenStreetMaps.png"
+        "static/icons/GoogleMaps.png"
     ]
     trail_buttons = list(zip(button_names, trail_links, icon_paths))
     return render_template('index.html', trail_buttons=trail_buttons)

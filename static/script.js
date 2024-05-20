@@ -12,6 +12,26 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+$(document).ready(function() {
+  // Set the default unit to kilometers
+  var unit = "km";
+  $("#unit_mi").removeClass("active"); // Ensure miles button is not active by default
+
+  // Function to toggle between kilometers and miles
+  $(".unit-button").click(function() {
+      $(".unit-button").removeClass("active");
+      $(this).addClass("active");
+      unit = $(this).text().toLowerCase();
+      $("#unit").val(unit);
+  });
+
+  // Set the active state for the default unit (kilometers)
+  $("#unit_km").addClass("active");
+
+  // Set the unit value to kilometers initially
+  $("#unit").val(unit);
+});
+
 // Function to handle form submission
 document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("use_current_location").addEventListener("click", function() {

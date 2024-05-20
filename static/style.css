@@ -159,14 +159,14 @@ input[type="submit"]:hover {
     appearance: none;
     width: 25px;
     height: 25px;
-    background: #4caf50;
+    background: #5F7FFF;
     cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
-    background: #4caf50;
+    background: #5F7FFF;
     cursor: pointer;
 }
 
@@ -193,4 +193,35 @@ input[type="submit"]:hover {
 
 .unit-selector {
     flex: 1; /* Take up half the width */
+}
+.unit-button.active {
+    /* background-color: blue; */
+    /* color: white; */
+    padding: 10px 20px;
+    background-color: #5F7FFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.header {
+    background-color: #ccc; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make it inline */
+    font-size: 16px; /* Set font size */
+    margin: 4px 2px; /* Add margin */
+    cursor: pointer; /* Add cursor pointer */
+    border-radius: 5px; /* Add border radius */
+    transition: background-color 0.3s;
+}
+
+.header:hover {
+    background-color: #e0e0e0; /* Darker green on hover */
 }
