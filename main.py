@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request
-# import googlemaps
-from mapbox import Directions
 import os
 import math
 import random
 import urllib.parse
-import geopy.distance
-from geopy.geocoders import Nominatim
+
+from flask import Flask, render_template, request
+from mapbox import Directions, Geocoder
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,98 +12,91 @@ load_dotenv()
 app = Flask(__name__)
 mapbox_token = os.getenv('MAPBOX_TOKEN')
 directions = Directions(access_token=mapbox_token)
-
-
-def generate_trail(start_location, distance, unit):
-  if unit == 'mi':
-    distance *= 1.60934  # Convert miles to kilometers
-
-  start_lat, start_lng = geocode_location(start_location)
-  waypoints = []
-  total_distance = 0
-  prev_waypoint = (start_lng, start_lat)  # Note: Mapbox uses (lng, lat) format
-
-  num_turns = 0  # Track the number of turns
-  while total_distance < distance and num_turns < 4:
-    try:
-      # Generate a random next waypoint with a circular bias
-      angle = random.uniform(0, 2 * math.pi)
-      radius = random.uniform(0.005,
-                              0.02)  # Adjust this radius range as needed
-      next_lat = prev_waypoint[1] + radius * math.cos(angle)
-      next_lng = prev_waypoint[0] + radius * math.sin(angle)
-      next_waypoint = (next_lng, next_lat)
-
-      # Snap the next waypoint to roads
-      response = directions.directions([prev_waypoint, next_waypoint],
-                                       profile='mapbox/walking')
-      snapped_waypoint = response.geojson(
-      )['features'][0]['geometry']['coordinates'][-1]
-
-      # Calculate the distance between the previous and current waypoints
-      distance_meters = response.geojson(
-      )['features'][0]['properties']['distance']
-
-      # Check if adding the segment distance exceeds the desired total distance
-      if total_distance + distance_meters / 1000 > distance:
-        break
-
-      # Append the snapped waypoint to the trail
-      waypoints.append(f"{snapped_waypoint[1]},{snapped_waypoint[0]}")
-      prev_waypoint = (snapped_waypoint[0], snapped_waypoint[1]
-                       )  # Note: Mapbox uses (lng, lat) format
-      total_distance += distance_meters / 1000
-
-      # Count the number of turns
-      num_turns += 1
-
-    except IndexError:
-      # If no snapped waypoint is found, use the original next waypoint
-      snapped_waypoint = next_waypoint
-      waypoints.append(f"{snapped_waypoint[1]},{snapped_waypoint[0]}")
-      prev_waypoint = (snapped_waypoint[0], snapped_waypoint[1]
-                       )  # Note: Mapbox uses (lng, lat) format
-
-  # Ensure the start and end locations are the same
-  waypoints.append(f"{start_lat},{start_lng}")
-
-  # URL-encode the start location and waypoints
-  start_location_encoded = urllib.parse.quote(start_location)
-  waypoints_encoded = "|".join(urllib.parse.quote(wp) for wp in waypoints)
-
-  # Create the Mapbox link with generated waypoints
-  mapbox_link = f"https://www.mapbox.com/directions?origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
-
-  # Create links for other maps
-  google_maps_link = f"https://www.google.com/maps/dir/?api=1&origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
-  return google_maps_link
+geocoder = Geocoder(access_token=mapbox_token)
 
 
 def geocode_location(location):
-  # Use geopy for geocoding
-  locator = Nominatim(user_agent="runfree")
-  location = locator.geocode(location)
-  return location.latitude, location.longitude
+    response = geocoder.forward(location).geojson()
+    coordinates = response['features'][0]['geometry']['coordinates']
+    return coordinates[1], coordinates[0]
+
+
+def find_nearby_destination(start_lat, start_lng, destination_type):
+    query = destination_type
+    response = geocoder.forward(query, proximity=(start_lng, start_lat)).geojson()
+    features = response['features']
+
+    if not features:
+        raise ValueError(f"No nearby {destination_type} found.")
+
+    destination = features[0]['geometry']['coordinates']
+    return destination[1], destination[0]
+
+
+def generate_trail(start_location, distance, unit, destination_type):
+    if unit == 'mi':
+        distance *= 1.60934  # Convert miles to kilometers
+
+    start_lat, start_lng = geocode_location(start_location)
+
+    destination_lat, destination_lng = find_nearby_destination(start_lat, start_lng, destination_type)
+    waypoints = []
+    total_distance = 0
+    prev_waypoint = (start_lng, start_lat)  # Note: Mapbox uses (lng, lat) format
+
+    num_turns = 0  # Track the number of turns
+    while total_distance < distance and num_turns < 4:
+        try:
+            angle = random.uniform(0, 2 * math.pi)
+            radius = random.uniform(0.005, 0.02)  # Adjust this radius range as needed
+            next_lat = prev_waypoint[1] + radius * math.cos(angle)
+            next_lng = prev_waypoint[0] + radius * math.sin(angle)
+            next_waypoint = (next_lng, next_lat)
+
+            response = directions.directions([prev_waypoint, next_waypoint], profile='mapbox/walking')
+            snapped_waypoint = response.geojson()['features'][0]['geometry']['coordinates'][-1]
+
+            distance_meters = response.geojson()['features'][0]['properties']['distance']
+
+            if total_distance + distance_meters / 1000 > distance:
+                break
+
+            waypoints.append(f"{snapped_waypoint[1]},{snapped_waypoint[0]}")
+            prev_waypoint = (snapped_waypoint[0], snapped_waypoint[1])
+            total_distance += distance_meters / 1000
+            num_turns += 1
+
+        except IndexError:
+            snapped_waypoint = next_waypoint
+            waypoints.append(f"{snapped_waypoint[1]},{snapped_waypoint[0]}")
+            prev_waypoint = (snapped_waypoint[0], snapped_waypoint[1])
+
+    waypoints.append(f"{destination_lat},{destination_lng}")
+    waypoints.append(f"{start_lat},{start_lng}")
+
+    start_location_encoded = urllib.parse.quote(start_location)
+    waypoints_encoded = "|".join(urllib.parse.quote(wp) for wp in waypoints)
+
+    google_maps_link = f"https://www.google.com/maps/dir/?api=1&origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
+    return google_maps_link
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-  if request.method == 'POST':
-    start_location = request.form['start_location']
-    distance = float(request.form['distance'])
-    unit = request.form['unit']
-    run_to = request.form['run_to']
-    avoid_ferries = 'avoid_ferries' in request.form
-    trail_links = generate_trail(start_location, distance, unit)
-    button_names = ["GoogleMaps"]
-    icon_paths = [
-        "static/icons/GoogleMaps.png"
-    ]
-    trail_buttons = list(zip(button_names, trail_links, icon_paths))
-    return render_template('index.html', trail_buttons=trail_buttons)
-  return render_template('index.html')
+    if request.method == 'POST':
+        start_location = request.form['start_location']
+        distance = float(request.form['distance'])
+        unit = request.form['unit']
+        run_to = request.form['run_to']
+        # avoid_ferries = 'avoid_ferries' in request.form
+        trail_links = generate_trail(start_location, distance, unit, run_to)
+        button_names = "GoogleMaps"
+        icon_paths = "static/icons/GoogleMaps.png"
+        trail_buttons = list(zip(button_names, trail_links, icon_paths))
+        return render_template('index.html', trail_buttons=trail_buttons)
+    return render_template('index.html')
 
 
 # Run the Flask app
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8110)

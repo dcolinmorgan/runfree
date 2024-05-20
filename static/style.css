@@ -10,6 +10,11 @@ body {
     height: 100vh;
 }
 
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
 .container {
     background-color: #fff;
     padding: 20px;
@@ -17,6 +22,10 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 400px;
+}
+
+body.dark-mode .container {
+    background-color: #1e1e1e;
 }
 
 h1 {
@@ -41,6 +50,14 @@ select {
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 16px;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="number"],
+body.dark-mode select {
+    background-color: #333;
+    color: #070707;
+    border: 1px solid #555;
 }
 
 input[type="checkbox"] {
@@ -110,7 +127,7 @@ input[type="submit"]:hover {
 .button img {
   width: 100px; /* Adjust icon size */
   height: 100px; /* Adjust icon size */
-  margin-right: 50px; Adjust spacing between icon and text
+  margin-right: 50px; /* Adjust spacing between icon and text
   margin-left: 5px; /* Adjust as needed */
   margin-top: 10px; /* Adjust as needed */
   justify-content: center;
@@ -138,11 +155,19 @@ input[type="submit"]:hover {
 #use_current_location:hover {
     background-color: #e0e0e0; /* Darker green on hover */
 }
+
+/* use_current_location.dark-mode input[type="text"],
+use_current_location.dark-mode select {
+    /* background-color: #333; */
+    /* color: #070707; */
+    border: 1px solid #555;
+} */
+
 .slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 25px;
+    height: 100px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
@@ -169,7 +194,7 @@ input[type="submit"]:hover {
     background: #5F7FFF;
     cursor: pointer;
 }
-
+/* 
 .radio-container {
     display: flex;
     flex-direction: row;
@@ -179,7 +204,7 @@ input[type="submit"]:hover {
 
 .radio-label {
     margin-right: 10px;
-}
+} */
 
 .distance-selector {
     display: flex;
@@ -195,6 +220,22 @@ input[type="submit"]:hover {
     flex: 1; /* Take up half the width */
 }
 .unit-button.active {
+    /* background-color: blue; */
+    /* color: white; */
+    padding: 10px 20px;
+    background-color: #5F7FFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.run_to-selector {
+    flex: 1; /* Take up half the width */
+}
+.run_to-button.active {
     /* background-color: blue; */
     /* color: white; */
     padding: 10px 20px;
@@ -224,4 +265,36 @@ input[type="submit"]:hover {
 
 .header:hover {
     background-color: #e0e0e0; /* Darker green on hover */
+}
+
+/* Floating Button */
+.floating-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #5F7FFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.floating-button:hover {
+    background-color: #4d6aff;
+}
+
+body.dark-mode .floating-button {
+    background-color: #444;
+}
+
+body.dark-mode .floating-button:hover {
+    background-color: #666;
 }

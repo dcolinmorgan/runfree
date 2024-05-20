@@ -6,20 +6,16 @@
     <link rel="manifest" href="/static/manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script src="script.js" defer></script>
     <link rel="stylesheet" href="static/style.css">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
 
     <style>
-        /* Hide the address bar initially */
         html, body {
             height: 100%;
             overflow: hidden;
         }
 
-        /* Hide the more options container by default */
         .more-options-container {
             display: none;
         }
@@ -29,6 +25,8 @@
     <div class="container">
         <h1>RunFree</h1>
         <form method="post">
+            <button id="dark_mode_toggle" class="floating-button">🌙</button>
+
             <label for="start_location">Start Location:</label>
             <input type="text" id="start_location" name="start_location" required><br><br>
             <button type="button" id="use_current_location">Use Current Location</button><br><br>
@@ -39,28 +37,35 @@
                   <input type="number" id="distance" name="distance" step="0.5" required style="background: #f0f0f0;" value="10" inputmode="numeric">
               </div>
               <div class="unit-selector">
-                <label for="unit">Unit:</label>
-                <button type="button" id="unit_km" class="unit-button active">KM</button>
-                <button type="button" id="unit_mi" class="unit-button">Miles</button>
-                <!-- <input type="hidden" id="unit" name="unit" value="KM"> -->
+                <label for="unit"></label>
+                  <select id="unit" name="unit">
+                      <option value="km" selected>Kilometers</option>
+                      <option value="mi">Miles</option>
+                  </select>
+                <!-- <label for="unit"></label>
+                <select id="unit" name="unit">
+                <button type="button" value="km" class="unit-button">kM</button>
+                <button type="button" value="mi" class="unit-button">Miles</button>
+            </select> -->
               </div>
             </div>
             <br><br>
           <div class="more-options-header header" id="more_options_header">
-            <button id="more_options_toggle">Expand</button>
+            <!-- <input type="more" id="more_options_toggle">More> -->
           </div>
           <div class="more-options-container" id="more_options_container" style="display: none;">
             <div class="more-options" id="more-options">
-                <label for="steepness">Steepness:</label>
-                <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="steepness"><br><br>
+                <br><br>
+                <label for="slope/pitch">slope/pitch:</label>
+                <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="slope/pitch"><br><br>
 
                 <div class="run_to-selector">
                     <label for="run_to">Run To:</label>
-                    <button type="button" id="park" class="unit-button active">park</button>
-                    <button type="button" id="water" class="unit-button ">water</button>
-                    <button type="button" id="city" class="unit-button">city</button>
-                    <button type="button" id="airport" class="unit-button">FLY</button>
-                </div>
+                    <button type="button" id="park" class="run_to-button">park</button>
+                    <button type="button" id="water" class="run_to-button ">water</button>
+                    <button type="button" id="city" class="run_to-button">city</button>
+                    <button type="button" id="airport" class="run_to-button">FLY</button>
+                </div><br>
                     <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
                     <label for="avoid_ferries">Avoid Ferries</label><br>
             
@@ -75,54 +80,19 @@
                 {% for button_name, trail_link, icon_path in trail_buttons %}
                 <a href="{{ trail_link }}" target="_blank" class="button">
                     <img src="{{ icon_path }}" >
-                    <!-- <span>{{ button_name }}</span> -->
+                    <span>{{ button_name }}</span>
                 </a>
                 {% endfor %}
             </div>
         {% endif %}
+
     <div id="result" class="result" style="display:none;"></div>
 
 
     <!-- Buy Me a Coffee Widget -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dcolinmorgan" data-description="Support me on Buy me a coffee!" data-message="have a nice run!" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
-<script>
-  // Function to handle form submission
-  $(document).ready(function() {
-      $("#use_current_location").click(function() {
-          if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function(position) {
-                  var latitude = position.coords.latitude;
-                  var longitude = position.coords.longitude;
+    <script src="static/script.js"></script>
 
-                  // Update start and end location input fields with user's current location
-                  $("#start_location").val(latitude + "," + longitude);
-                  $("#end_location").val(latitude + "," + longitude);
-              }, function(error) {
-                  console.error("Error getting current location:", error);
-                  alert("Error getting current location. Please enter manually.");
-              });
-          } else {
-              alert("Geolocation is not supported by this browser. Please enter manually.");
-          }
-      });
-
-      // Toggle visibility of more options container
-      $(".header").click(function () {
-          $header = $(this);
-          //getting the next element
-          $content = $header.next();
-          //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
-          $content.slideToggle(500, function () {
-              //execute this after slideToggle is done
-              //change text of header based on visibility of content div
-              $header.text(function () {
-                  //change text based on condition
-                  return $content.is(":visible") ? "Less" : "More";
-              });
-          });
-      });
-  });
-</script>
 </body>
 </html>
