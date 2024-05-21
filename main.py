@@ -35,7 +35,9 @@ def find_nearby_destination(start_lat, start_lng, destination_type):
     response = requests.get(url, params=params)
 
     if response.status_code != 200:
-        raise ValueError(f"Geocoding request failed with status code {response.status_code}")
+        raise ValueError(
+            f"Geocoding request failed with status code {response.status_code}"
+        )
 
     response_json = response.json()
 
@@ -61,13 +63,18 @@ def find_nearby_destination(start_lat, start_lng, destination_type):
             closest_feature = feature
 
     if closest_feature is None:
-        raise ValueError(f"No nearby {destination_type} found within a reasonable distance.")
+        raise ValueError(
+            f"No nearby {destination_type} found within a reasonable distance."
+        )
 
     closest_destination = closest_feature['geometry']['coordinates']
     return closest_destination[1], closest_destination[0]
 
 
-def generate_trail(start_location, distance=10, unit='km', destination_type=None):
+def generate_trail(start_location,
+                   distance=10,
+                   unit='km',
+                   destination_type=None):
     if unit == 'mi':
         distance *= 1.60934  # Convert miles to kilometers
 
@@ -86,10 +93,13 @@ def generate_trail(start_location, distance=10, unit='km', destination_type=None
             next_lng = prev_waypoint[0] + radius * math.sin(angle)
             next_waypoint = (next_lng, next_lat)
 
-            response = directions.directions([prev_waypoint, next_waypoint], profile='mapbox/walking')
-            snapped_waypoint = response.geojson()['features'][0]['geometry']['coordinates'][-1]
+            response = directions.directions([prev_waypoint, next_waypoint],
+                                             profile='mapbox/walking')
+            snapped_waypoint = response.geojson(
+            )['features'][0]['geometry']['coordinates'][-1]
 
-            distance_meters = response.geojson()['features'][0]['properties']['distance']
+            distance_meters = response.geojson(
+            )['features'][0]['properties']['distance']
 
             if total_distance + distance_meters / 1000 > distance:
                 break
@@ -104,7 +114,8 @@ def generate_trail(start_location, distance=10, unit='km', destination_type=None
             waypoints.append(f"{snapped_waypoint[1]},{snapped_waypoint[0]}")
             prev_waypoint = (snapped_waypoint[0], snapped_waypoint[1])
     if destination_type:
-        destination_lat, destination_lng = find_nearby_destination(start_lat, start_lng, destination_type)
+        destination_lat, destination_lng = find_nearby_destination(
+            start_lat, start_lng, destination_type)
         waypoints.append(f"{destination_lat},{destination_lng}")
     waypoints.append(f"{start_lat},{start_lng}")
 
@@ -113,7 +124,7 @@ def generate_trail(start_location, distance=10, unit='km', destination_type=None
 
     google_maps_link = f"https://www.google.com/maps/dir/?api=1&origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
 
-    return google_maps_link,google_maps_link,google_maps_link
+    return google_maps_link, google_maps_link, google_maps_link
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -133,4 +144,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4000, debug=True)
+    app.run(host='0.0.0.0', port=80)  #, debug=True)

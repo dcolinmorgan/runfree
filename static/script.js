@@ -33,11 +33,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
   });
 
-  // Toggle visibility of more options container
-  document.getElementById("more_options_toggle").addEventListener("click", function() {
-      var container = document.getElementById("more_options_container");
-      container.style.display = container.style.display === "block" ? "none" : "block";
-  });
 });
 
 $(document).ready(function() {
@@ -70,10 +65,6 @@ $(document).ready(function() {
   $("#unit2").val(unit2);
 });
 
-  // jQuery code to toggle display of more options
-  $("#more_options_toggle").click(function() {
-      $("#more_options_container").toggle();
-  });
 
   // Handle form submission for using current location (jQuery version)
   $("#use_current_location").click(function() {
@@ -123,19 +114,29 @@ document.getElementById('distance').addEventListener('input', function() {
   document.getElementById('distanceValue').textContent = this.value;
 });
 
-document.querySelectorAll('.dest-button').forEach(button => {
-  button.addEventListener('click', function(event) {
-      var otherLocationField = document.getElementById('other-location-field');
-      document.getElementById('dest').value = event.target.textContent.toLowerCase();
-      if (event.target.id === 'other') {
-          otherLocationField.classList.remove('hidden');
-      } else {
-          otherLocationField.classList.add('hidden');
-      }
+document.addEventListener("DOMContentLoaded", function() {
+  var moreOptionsToggle = document.getElementById("more_options_toggle");
+  if (moreOptionsToggle) {
+      moreOptionsToggle.addEventListener("click", function() {
+          var container = document.getElementById("more_options_container");
+          container.style.display = container.style.display === "block" ? "none" : "block";
+      });
+  }
+
+  document.querySelectorAll('.dest-button').forEach(button => {
+      button.addEventListener('click', function(event) {
+          var otherLocationField = document.getElementById('other-location-field');
+          document.getElementById('dest').value = event.target.textContent.toLowerCase();
+          if (event.target.id === 'other') {
+              otherLocationField.classList.remove('hidden');
+          } else {
+              otherLocationField.classList.add('hidden');
+          }
+      });
   });
 });
 
-document.getElementById('distance').addEventListener('input', updateLinkText);
+// document.getElementById('distance').addEventListener('input', updateLinkText);
 
 // function updateLinkText() {
 //   var distance = document.getElementById('distance').value;
@@ -146,7 +147,7 @@ document.getElementById('distance').addEventListener('input', updateLinkText);
 //   if (distance && unit && runTo) {
 //       linkText = `Random ${distance}${unit} route to a ${runTo}`;
 //   }
-  
+
 //   document.getElementById('trail-link').textContent = linkText;
 // }
 
