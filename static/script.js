@@ -52,22 +52,23 @@ $(document).ready(function() {
       unit = $(this).text().toLowerCase();
       $("#unit").val(unit);
   });
-
   // Set the unit value to kilometers initially
   $("#unit").val(unit);
+});
 
+$(document).ready(function() {
   // Set the default unit to water
-  var unit = "water";
+  var unit2 = "water";
 
-  $(".run_to-button").click(function() {
-      $(".run_to-button").removeClass("active");
+  $(".dest-button").click(function() {
+      $(".dest-button").removeClass("active");
       $(this).addClass("active");
-      unit = $(this).text().toLowerCase();
-      $("#unit").val(unit);
+      unit2 = $(this).text().toLowerCase();
+      $("#unit2").val(unit2);
   });
-
   // Set the unit value to water initially
-  $("#unit").val(unit);
+  $("#unit2").val(unit2);
+});
 
   // jQuery code to toggle display of more options
   $("#more_options_toggle").click(function() {
@@ -104,7 +105,7 @@ $(document).ready(function() {
           $header.text($content.is(":visible") ? "Less" : "More");
       });
   });
-});
+// });
 
 // Set dark mode based on system preference
 document.addEventListener("DOMContentLoaded", function() {
@@ -122,15 +123,12 @@ document.getElementById('distance').addEventListener('input', function() {
   document.getElementById('distanceValue').textContent = this.value;
 });
 
-document.querySelectorAll('.run_to-button').forEach(button => {
+document.querySelectorAll('.dest-button').forEach(button => {
   button.addEventListener('click', function(event) {
       var otherLocationField = document.getElementById('other-location-field');
+      document.getElementById('dest').value = event.target.textContent.toLowerCase();
       if (event.target.id === 'other') {
-          if (otherLocationField.classList.contains('hidden')) {
-              otherLocationField.classList.remove('hidden');
-          } else {
-              otherLocationField.classList.add('hidden');
-          }
+          otherLocationField.classList.remove('hidden');
       } else {
           otherLocationField.classList.add('hidden');
       }
@@ -139,18 +137,19 @@ document.querySelectorAll('.run_to-button').forEach(button => {
 
 document.getElementById('distance').addEventListener('input', updateLinkText);
 
-function updateLinkText() {
-  var distance = document.getElementById('distance').value;
-  var unit = document.getElementById('unit').value;
-  var runTo = document.querySelector('.run_to-button.active') ? document.querySelector('.run_to-button.active').textContent : '';
+// function updateLinkText() {
+//   var distance = document.getElementById('distance').value;
+//   var unit = document.getElementById('unit').value;
+//   var runTo = document.querySelector('.dest-button.active') ? document.querySelector('.dest-button.active').textContent : '';
 
-  var linkText = 'Random route';
-  if (distance && unit && runTo) {
-      linkText = `Random ${distance}${unit} route to a ${runTo}`;
-  }
+//   var linkText = 'Show My Route';
+//   if (distance && unit && runTo) {
+//       linkText = `Random ${distance}${unit} route to a ${runTo}`;
+//   }
   
-  document.getElementById('trail-link').textContent = linkText;
-}
+//   document.getElementById('trail-link').textContent = linkText;
+// }
 
 // Initialize the link text
-updateLinkText();
+// updateLinkText();
+

@@ -1,3 +1,19 @@
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+.more-options-container {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    background-color: #ddd; /* Example styling for active button */
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -208,11 +224,11 @@ input[type="submit"]:hover {
     transition: background-color 0.3s;
 }
 
-.run_to-selector {
+.dest-selector {
     flex: 1; /* Take up half the width */
 }
 
-.run_to-button.active {
+.dest-button.active {
     padding: 10px 20px;
     background-color: #5F7FFF;
     color: #fff;
@@ -306,4 +322,32 @@ body.dark-mode .floating-button:hover {
     background: #5F7FFF;
     cursor: pointer;
     border-radius: 50%;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+
+.center-container .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.center-container .button-container a {
+    padding: 10px 20px;
+    background-color: #5F7FFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.center-container .button-container a:hover {
+    background-color: #4d6aff;
 }

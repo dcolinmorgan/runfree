@@ -122,10 +122,10 @@ def index():
         start_location = request.form['start_location']
         distance = float(request.form['distance'])
         unit = request.form['unit']
-        # dest = request.form['dest']
+        dest = request.form['dest']
         # avoid_ferries = 'avoid_ferries' in request.form
-        trail_links = generate_trail(start_location, distance, unit)#, dest)
-        button_names = ["GoogleMaps"]
+        trail_links = generate_trail(start_location, distance, unit, dest)
+        button_names = ["Open Your Route"]
         icon_paths = ["static/icons/GoogleMaps.png"]
         trail_buttons = list(zip(button_names, trail_links, icon_paths))
         return render_template('index.html', trail_buttons=trail_buttons)

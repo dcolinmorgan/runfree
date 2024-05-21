@@ -10,24 +10,6 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
 
-    <style>
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .more-options-container {
-            display: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .active {
-            background-color: #ddd; /* Example styling for active button */
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -47,7 +29,7 @@
                 <div class="unit-selector">
                     <label for="unit"></label>
                     <select id="unit" name="unit">
-                        <option value="km" selected>Kilometers</option>
+                        <option value="km" selected>kM</option>
                         <option value="mi">Miles</option>
                     </select>
                 </div>
@@ -57,21 +39,22 @@
             <div class="more-options-container" id="more_options_container" style="display: none;">
                 <div class="more-options" id="more-options">
                     <br><br>
-                    <label for="slope/pitch">slope/pitch:</label>
+                    <label for="grade/slope">slope/pitch:</label>
                     <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="slope/pitch"><br><br>
 
-                    <div class="run_to-selector">
-                        <label for="run_to">Run To:</label>
-                        <button type="button" id="park" class="run_to-button">park</button>
-                        <button type="button" id="water" class="run_to-button">water</button>
-                        <button type="button" id="city" class="run_to-button">city</button>
-                        <button type="button" id="other" class="run_to-button">other</button>
+                    <div class="dest-selector">
+                        <label for="dest">Run To:</label>
+                        <button type="button" id="park" class="dest-button">park</button>
+                        <button type="button" id="water" class="dest-button">water</button>
+                        <button type="button" id="city" class="dest-button">city</button>
+                        <button type="button" id="other" class="dest-button">other</button>
                     </div><br>
                     
                     <div id="other-location-field" class="hidden">
                         <label for="other_location">Enter Location:</label>
                         <input type="text" id="other_location" name="other_location">
                     </div><br>
+                    <input type="hidden" id="dest" name="dest" value="park">
                     <input type="checkbox" id="avoid_ferries" name="avoid_ferries">
                     <label for="avoid_ferries">Avoid Ferries</label><br>
                 </div>
@@ -80,11 +63,14 @@
             <br><br>
             <input type="submit" value="Generate Trail">
         </form>
+        <br><br>
         {% if trail_buttons %}
-            <div class="button-container">
-                {% for button_name, trail_link, icon_path in trail_buttons %}
-                <a href="{{ trail_link }}" target="_blank" id="trail-link">{{ button_name }}</a>
-                {% endfor %}
+            <div class="center-container">
+                <div class="button-container">
+                    {% for button_name, trail_link, icon_path in trail_buttons %}
+                    <a href="{{ trail_link }}" target="_blank" id="trail-link">{{ button_name }}</a>
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
 
@@ -95,42 +81,7 @@
 
         <script src="static/script.js"></script>
 
-        <script>
-            document.querySelectorAll('.run_to-button').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    var otherLocationField = document.getElementById('other-location-field');
-                    if (event.target.id === 'other') {
-                        if (otherLocationField.classList.contains('hidden')) {
-                            otherLocationField.classList.remove('hidden');
-                        } else {
-                            otherLocationField.classList.add('hidden');
-                        }
-                    } else {
-                        otherLocationField.classList.add('hidden');
-                    }
-                    updateLinkText();
-                });
-            });
-
-            document.getElementById('distance').addEventListener('input', updateLinkText);
-            document.getElementById('unit').addEventListener('change', updateLinkText);
-
-            function updateLinkText() {
-                var distance = document.getElementById('distance').value;
-                var unit = document.getElementById('unit').value;
-                var runTo = document.querySelector('.run_to-button.active') ? document.querySelector('.run_to-button.active').textContent : '';
-
-                var linkText = 'Random route';
-                if (distance && unit && runTo) {
-                    linkText = `Random ${distance}${unit} route to a ${runTo}`;
-                }
-                
-                document.getElementById('trail-link').textContent = linkText;
-            }
-
-            // Initialize the link text
-            updateLinkText();
-        </script>
+        
     </div>
 </body>
 </html>
