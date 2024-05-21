@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -95,48 +94,45 @@ input[type="submit"]:hover {
     color: #5F7FFF;
     text-decoration: none;
 }
+
 .button-container {
-  display: flex;
+    display: flex;
 }
 
 .button {
-  margin-right: 20px; /* Adjust as needed */
-  margin-left: 20px; /* Adjust as needed */
-  margin-top: 20px; /* Adjust as needed */
-
+    margin-right: 20px; /* Adjust as needed */
+    margin-left: 20px; /* Adjust as needed */
+    margin-top: 20px; /* Adjust as needed */
 }
 
 .button a {
-  display: flex;
-  align-items: center;
-  width: 200px;
-  height: 50px;
-  justify-content: center;
-  text-decoration: none;
-  background-color: #f0f0f0; /* Button background color */
-  border: 1px solid #ccc; /* Button border */
-  border-radius: 15px; /* Button border radius */
-  padding: 5px; /* Button padding */
-  transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 50px;
+    justify-content: center;
+    text-decoration: none;
+    background-color: #f0f0f0; /* Button background color */
+    border: 1px solid #ccc; /* Button border */
+    border-radius: 15px; /* Button border radius */
+    padding: 5px; /* Button padding */
+    transition: background-color 0.3s ease;
 }
 
 .button a:hover {
-  background-color: #e0e0e0; /* Button background color on hover */
+    background-color: #e0e0e0; /* Button background color on hover */
 }
 
 .button img {
-  width: 100px; /* Adjust icon size */
-  height: 100px; /* Adjust icon size */
-  margin-right: 50px; /* Adjust spacing between icon and text
-  margin-left: 5px; /* Adjust as needed */
-  margin-top: 10px; /* Adjust as needed */
-  justify-content: center;
-
+    width: 100px; /* Adjust icon size */
+    height: 100px; /* Adjust icon size */
+    margin-right: 50px; /* Adjust spacing between icon and text */
 }
 
 .button span {
-  font-size: 16px; /* Adjust text size */
+    font-size: 16px; /* Adjust text size */
 }
+
 #use_current_location {
     background-color: #ccc; /* Green background */
     border: none; /* Remove border */
@@ -156,22 +152,14 @@ input[type="submit"]:hover {
     background-color: #e0e0e0; /* Darker green on hover */
 }
 
-/* use_current_location.dark-mode input[type="text"],
-use_current_location.dark-mode select {
-    /* background-color: #333; */
-    /* color: #070707; */
-    border: 1px solid #555;
-} */
-
 .slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 100px;
+    height: 25px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
-    -webkit-transition: .2s;
     transition: opacity .2s;
 }
 
@@ -194,17 +182,6 @@ use_current_location.dark-mode select {
     background: #5F7FFF;
     cursor: pointer;
 }
-/* 
-.radio-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.radio-label {
-    margin-right: 10px;
-} */
 
 .distance-selector {
     display: flex;
@@ -219,9 +196,8 @@ use_current_location.dark-mode select {
 .unit-selector {
     flex: 1; /* Take up half the width */
 }
+
 .unit-button.active {
-    /* background-color: blue; */
-    /* color: white; */
     padding: 10px 20px;
     background-color: #5F7FFF;
     color: #fff;
@@ -235,9 +211,8 @@ use_current_location.dark-mode select {
 .run_to-selector {
     flex: 1; /* Take up half the width */
 }
+
 .run_to-button.active {
-    /* background-color: blue; */
-    /* color: white; */
     padding: 10px 20px;
     background-color: #5F7FFF;
     color: #fff;
@@ -297,4 +272,38 @@ body.dark-mode .floating-button {
 
 body.dark-mode .floating-button:hover {
     background-color: #666;
+}
+
+.scroll-wheel {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.9;
+    transition: opacity .2s;
+}
+
+.scroll-wheel:hover {
+    opacity: 1;
+}
+
+.scroll-wheel::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #5F7FFF;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.scroll-wheel::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #5F7FFF;
+    cursor: pointer;
+    border-radius: 50%;
 }
