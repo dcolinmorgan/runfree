@@ -74,7 +74,8 @@ def find_nearby_destination(start_lat, start_lng, destination_type):
 def generate_trail(start_location,
                    distance=10,
                    unit='km',
-                   destination_type=None):
+                   destination_type=None,
+                   dir = 'return'):
     if unit == 'mi':
         distance *= 1.60934  # Convert miles to kilometers
 
@@ -134,8 +135,9 @@ def index():
         distance = float(request.form['distance'])
         unit = request.form['unit']
         dest = request.form['dest']
+        dir = request.form['dir']
         # avoid_ferries = 'avoid_ferries' in request.form
-        trail_links = generate_trail(start_location, distance, unit, dest)
+        trail_links = generate_trail(start_location, distance, unit, dest,dir)
         button_names = ["Open Your Route"]
         icon_paths = ["static/icons/GoogleMaps.png"]
         trail_buttons = list(zip(button_names, trail_links, icon_paths))

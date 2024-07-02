@@ -37,18 +37,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
 $(document).ready(function() {
   // Set the default unit to kilometers
-  var unit = "km";
+  var unit1 = "km";
   $("#unit_mi").removeClass("active"); // Ensure miles button is not active by default
 
   // Function to toggle between kilometers and miles
   $(".unit-button").click(function() {
       $(".unit-button").removeClass("active");
       $(this).addClass("active");
-      unit = $(this).text().toLowerCase();
-      $("#unit").val(unit);
+      unit1 = $(this).text().toLowerCase();
+      $("#unit1").val(unit1);
   });
   // Set the unit value to kilometers initially
-  $("#unit").val(unit);
+  $("#unit1").val(unit1);
 });
 
 $(document).ready(function() {
@@ -65,6 +65,20 @@ $(document).ready(function() {
   $("#unit2").val(unit2);
 });
 
+$(document).ready(function() {
+  // Set the default unit to return
+  var unit3 = "return";
+
+  // Function to toggle between kilometers and miles
+  $(".dir-button").click(function() {
+      $(".dir-button").removeClass("active");
+      $(this).addClass("active");
+      unit3 = $(this).text().toLowerCase();
+      $("#unit3").val(unit3);
+  });
+  // Set the unit value to kilometers initially
+  $("#unit3").val(unit3);
+});
 
   // Handle form submission for using current location (jQuery version)
   $("#use_current_location").click(function() {
@@ -135,22 +149,3 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   });
 });
-
-// document.getElementById('distance').addEventListener('input', updateLinkText);
-
-// function updateLinkText() {
-//   var distance = document.getElementById('distance').value;
-//   var unit = document.getElementById('unit').value;
-//   var runTo = document.querySelector('.dest-button.active') ? document.querySelector('.dest-button.active').textContent : '';
-
-//   var linkText = 'Show My Route';
-//   if (distance && unit && runTo) {
-//       linkText = `Random ${distance}${unit} route to a ${runTo}`;
-//   }
-
-//   document.getElementById('trail-link').textContent = linkText;
-// }
-
-// Initialize the link text
-// updateLinkText();
-
