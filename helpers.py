@@ -94,12 +94,17 @@ def generate_waypoints(start_lat, start_lng, distance_km, destination_type):
     return waypoints
 
 
-def generate_waypoints_arch(start_lat, start_lng, distance, num_turns):
+def generate_waypoints_arch(directions,start_lat, start_lng, distance, num_turns):
     waypoints = []
     total_distance = 0
     prev_waypoint = (start_lng, start_lat)
     while total_distance < distance:# and num_turns < 4:
-        
+        angle = random.uniform(0, 2 * math.pi)
+        radius = random.uniform(0.005, 0.02)
+        next_lat = prev_waypoint[1] + radius * math.cos(angle)
+        next_lng = prev_waypoint[0] + radius * math.sin(angle)
+        next_waypoint = (next_lng, next_lat)
+            
         response = directions.directions([prev_waypoint, next_waypoint],
                                             profile='mapbox/walking')
         snapped_waypoint = response.geojson(
@@ -162,7 +167,9 @@ def remove_backtracking(waypoints):
     return optimized_path
 
 
-def generate_trail(start_location,
+
+def generate_trail(directions,
+                   start_location,
                    distance=10,
                    unit='km',
                    destination_type=None,
@@ -178,17 +185,18 @@ def generate_trail(start_location,
     total_distance = 0
     prev_waypoint = (start_lng, start_lat)
     
-    # waypoints = generate_waypoints_arch(start_lat, start_lng, distance, 4)
-    
-    waypoints = generate_waypoints(start_lat, start_lng, distance, destination_type)
-    from collections import OrderedDict
-    waypoints = list(OrderedDict.fromkeys(waypoints))
+    waypoints = generate_waypoints_arch(directions, start_lat, start_lng, distance, 4)
+    waypoints = [tuple(map(float, wp.split(','))) for wp in waypoints]
+
+    # waypoints = generate_waypoints(start_lat, start_lng, distance, destination_type)
+    # from collections import OrderedDict
+    # waypoints = list(OrderedDict.fromkeys(waypoints))
     
     # waypoints = random_walk(start_lat, start_lng, 10, distance)
-    
-    optimized_waypoints = remove_backtracking(waypoints)
 
+    optimized_waypoints = remove_backtracking(waypoints)
     waypoints = [f"{lat}, {lng}" for lat, lng in waypoints]
+    
     seen = set()
     waypoints = [x for x in waypoints if not (x in seen or seen.add(x))]
 
@@ -201,4 +209,5 @@ def generate_trail(start_location,
 
     google_maps_link = f"https://www.google.com/maps/dir/?api=1&origin={start_location_encoded}&destination={start_location_encoded}&waypoints={waypoints_encoded}"
 
-    return google_maps_link
+    return google_maps_link, None, None
+

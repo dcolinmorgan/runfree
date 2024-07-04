@@ -203,24 +203,27 @@ input[type="submit"]:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
-.distance-selector {
+.distance-selector, .unit-selector, .dest-selector {
     display: flex;
-    flex-direction: row;
+    flex: 1 1 auto; /* Grow and shrink, but respect content size */
+    flex-basis: 25% ;
+    max-width: 50px;
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
 }
 
-.distance-input {
-    flex: 1; 
+/* .distance-input {
+    flex: 1 1 auto; /* Do not grow, allow shrink, and auto basis */
+    /* flex-basis: 20%; /* Start at 30% of the container's size */ */
     margin-right: 10px;
-}
+    max-width: 50px;
+    /* min-width: 10;  */
+} */
 
-.unit-selector {
-    flex: 1; 
-    display: flex;
-}
-
-.unit-button.active {
+.unit-button.active, .dest-button.active {
     padding: 10px 20px;
     background-color: #5F7FFF;
     color: #fff;
@@ -229,34 +232,19 @@ input[type="submit"]:hover {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
-}
-
-.dest-selector {
-    flex: 1; 
-    display: flex;
-}
-
-.dest-button.active {
-    padding: 10px 20px;
-    background-color: #5F7FFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    width: 100%; /* Ensure buttons take full width of their container */
 }
 
 .header {
     background-color: #ccc; /* Green background */
     border: none; /* Remove border */
     color: white; /* White text */
-    padding: 10px 20px; /* Add padding */
+    /* padding: 10px 20px; /* Add padding */ */
     text-align: center; /* Center text */
     text-decoration: none; /* Remove underline */
     display: inline-block; /* Make it inline */
     font-size: 16px; /* Set font size */
-    margin: 4px 2px; /* Add margin */
+    /* margin: 4px 2px; /* Add margin */ */
     cursor: pointer; /* Add cursor pointer */
     border-radius: 5px; /* Add border radius */
     transition: background-color 0.3s;
