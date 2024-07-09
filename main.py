@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from mapbox import Directions
 from dotenv import load_dotenv
 
@@ -25,9 +25,9 @@ def index():
         # icon_paths = ["static/icons/GoogleMaps.png"]
         # trail_buttons = list(zip(button_names, trail_links, icon_paths))
         # return render_template('index.html', trail_buttons=trail_buttons)
-        return(trail_links[0])
+        return redirect(trail_links[0])
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=80) #, debug=True)
